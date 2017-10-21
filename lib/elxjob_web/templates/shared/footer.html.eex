@@ -1,0 +1,25 @@
+<div class="container">
+  <footer class="ui inverted segment">
+    <div class="footer__content">
+      <div class="sign">
+        2016 - <%= Timex.today.year %>
+        <i class="heart icon"></i>
+        For elixir community by <a href="mailto:buurzx@gmail.com">Pavel Ro</a>.
+      </div>
+
+      <div class="footer__menu">
+        <ul>
+          <li>
+            <%= link "О проекте", to: page_path(@conn, :project) %>
+          </li>
+          <li>
+            <%= link "Условия", to: page_path(@conn, :conditions) %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="inspiring">
+      Inspired by A.Sulim <a href="http://www.rubyjobs.ru" target="_blank">rubyjobs.ru</a>
+    </div>
+  </footer>
+</div>

@@ -1,0 +1,131 @@
+<%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="ui negative message">
+      <p>Форма заполнена не корректно. Обратите внимание на ошибки:</p>
+    </div>
+  <% end %>
+  <div class="ui grid">
+    <div class="eight wide column">
+      <div class="field form-group">
+        <%= label f, "Название должности" %>
+        <%= text_input f, :title, placeholder: "Elixir разработчик", class: "form-control"%>
+        <%= error_tag f, :title %>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <div class="field form-group">
+        <%= label f, "Тип занятости" %>
+        <%= select f, :occupation, occupation, prompt: "Тип занятости", class: "ui dropdown form-control"%>
+        <%= error_tag f, :occupation %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, "Описание" %>
+    <%= textarea f, :description, placeholder: "Для форматирования можно использовать markdown.", cols: "30", rows: "10", class: "form-control" %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="field">
+        <%= label f, "Срок размещения" %>
+        <%= if @conn.private[:phoenix_action] == :edit do %>
+          <%= text_input f, :actual_till, value: f.data.actual_till, hidden: true  %>
+          <div>до: <%= f.data.actual_till %></div>
+        <% else %>
+          <%= select f, :actual_till, post_period(f.data.actual_till), prompt: "...", class: "ui dropdown form-control" %>
+          <%= error_tag f, :actual_till %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="five wide column pt-33">
+      <div class="field form-group">
+        <%= label f, "Местоположение" %>
+        <%= text_input f, :location, class: "form-control", placeholder: "Город" %>
+        <%= error_tag f, :location %>
+      </div>
+    </div>
+    <div class="five wide column marg_top" id="remote_checkbox">
+      <%= label f, "Удаленная работа" %>
+        <%= checkbox f, :remote, class: "form-control" %>
+        <%= error_tag f, :remote %>
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="field payment-label"><label for="">Оплата</label></div>
+    <div class="two wide column payment-inputs">
+      <div class="field form-group">
+        <%= text_input f, :pay_from, class: "form-control", placeholder: "от" %>
+        <%= error_tag f, :pay_from %>
+      </div>
+    </div>
+    <div class="two wide column payment-inputs">
+      <%= text_input f, :pay_till, placeholder: "до", class: "form-control" %>
+      <%= error_tag f, :pay_till %>
+    </div>
+    <div class="four wide column payment-inputs">
+      <%= select f, :currency, currency, prompt: "денежная единица", class: "ui dropdown form-control"%>
+      <%= error_tag f, :currency %>
+    </div>
+    <div class="four wide column payment-inputs">
+      <%= select f, :pay_period, pay_period, prompt: "период", class: "ui dropdown form-control"%>
+      <%= error_tag f, :pay_period %>
+    </div>
+  </div>
+
+  <div class="ui grid">
+    <div class="six wide column">
+      <div class="field">
+        <%= label f, "Электропочта" %>
+        <%= text_input f, :email, class: "form-control" %>
+        <%= error_tag f, :email %>
+      </div>
+    </div>
+    <div class="five wide column">
+      <div class="field form-group">
+        <%= label f, "Компания" %>
+        <%= text_input f, :company, class: "form-control" %>
+        <%= error_tag f, :company %>
+      </div>
+    </div>
+    <div class="five wide column">
+      <div class="field">
+        <%= label f, "Сайт" %>
+        <%= text_input f, :site, class: "form-control", placeholder: "http://www.example.com" %>
+        <%= error_tag f, :site %>
+      </div>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="eight wide column form-contacts">
+      <div class="field">
+        <%= label f, "Контактное лицо" %>
+        <%= text_input f, :contact, class: "form-control" %>
+        <%= error_tag f, :contact %>
+      </div>
+    </div>
+    <div class="eight wide column form-contacts">
+      <div class="field">
+        <%= label f, "Телефон" %>
+        <%= text_input f, :phone, class: "form-control" %>
+        <%= error_tag f, :phone %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group merg_top add-vacancy">
+    <%= submit "Добавить вакансию", class: "ui primary button" %>
+  </div>
+<% end %>
+<%= if @conn.private[:phoenix_action] == :edit do %>
+  <%= form_for @changeset, @action, [class: "archive__button"], fn f -> %>
+    <div class="form-group merg_top right">
+      <%= checkbox f, :archive, value: true, hidden: true %>
+      <%= submit "В архив", class: "ui button" %>
+    </div>
+  <% end %>
+<% end %>

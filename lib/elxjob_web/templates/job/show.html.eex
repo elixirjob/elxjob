@@ -1,0 +1,86 @@
+<div class="ui raised violet segment">
+  <h2>
+    <%= @job.title %>
+  </h2>
+  <div class="ui grid">
+    <div class="thirteen wide column">
+
+      <h5>
+        <%= if @job.company do %>
+          <span><%= @job.company %> -</span>
+        <% end %>
+
+        <%= if @job.location do %>
+          <span><%= @job.location %><i class="marker icon"></i></span>
+        <% else %>
+          <span>Not Set</span>
+        <% end %>
+      </h5>
+    </div>
+    <div class="three wide column">
+      <%= unless is_nil(@job.views) do %>
+        <i class="eye icon"></i><%= @job.views %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="ui divider"></div>
+  <div class="ui grid">
+    <div class="six wide column job-contacts">
+      <a href="<%= job_path(@conn, :index, type: :remote,  q: @job.remote) %>">
+        <div class="ui green horizontal label"><i class="home icon"></i> <%= if @job.remote, do: "Удаленно", else: "В офисе" %></div>
+      </a>
+      <a href="<%= job_path(@conn, :index, type: :occupation, q: @job.occupation) %>">
+        <%= unless is_nil(@job.occupation) do %>
+            <div class="ui teal horizontal label"><i class="newspaper icon"></i> <%= occupation(@job.occupation) %></div>
+        <% end %>
+      </a>
+      <div class="ui divider"></div>
+      <%= if @job.email do %>
+        <div class="email row">
+          <i class="mail icon"></i>
+          <a href="mailto:<%= @job.email %>"><%= @job.email %></a>
+        </div>
+      <% end %>
+      <%= if @job.contact do %>
+        <div class="contact row">
+          <i class="user icon"></i><%= @job.contact %>
+        </div>
+      <% end %>
+      <%= if @job.phone do %>
+        <div>
+          <i class="call icon"></i></i><%= @job.phone %>
+        </div>
+      <% end %>
+
+      <div class="ui divider"></div>
+
+      <div><i class="calendar icon"></i>Актуально до: <%= @job.actual_till %></div>
+
+      <div class="ui divider"></div>
+      <%= if @job.pay_from || @job.pay_till do %>
+        <strong>Оплата:</strong>
+        <br>
+        <%= if @job.pay_from do %>
+          от <span><%= @job.pay_from %></span>
+        <% end %>
+        <%= if @job.pay_till do %>
+          до <span><%= @job.pay_till %></span>
+        <% end %>
+        <%= if @job.currency, do: currency(@job.currency)%>
+        <%= if @job.pay_period, do: pay_period @job.pay_period %>
+        <div class="ui divider"></div>
+      <% end %>
+
+      <%= if @job.site do %>
+        <i class="linkify icon"></i><a href="<%= @job.site %>" target="_blank"><%= @job.site %></a>
+        <div class="ui divider"></div>
+      <% end %>
+
+    </div>
+
+    <div class="one wide column"></div>
+    <div class="eight wide column"><%= to_html @job.description %></div>
+  </div>
+
+</div>

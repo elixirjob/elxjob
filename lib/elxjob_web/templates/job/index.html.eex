@@ -1,0 +1,24 @@
+<div class="ui raised segment main-page">
+  <div class="ui divided list">
+    <h3 class="ui dividing header">
+      <a name="active-jobs"></a>Последние вакансии
+    </h3>
+    <%= for job <- @jobs do %>
+      <%= render "job.html", conn: @conn, job: job %>
+    <% end %>
+
+    <%= if @total_pages > 1 do %>
+      <div class="ui grid item pagination">
+        <%= for page <- 1..@total_pages do %>
+          <a href="<%= job_query_params_path(@conn, page) %>" class="<%= if @page_number == page, do: 'current-page' %>"><%= page %></a>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<br>
+
+<div class="ui grid">
+</div>
+

@@ -16,6 +16,11 @@ defmodule ElxjobWeb.Router do
   scope "/", ElxjobWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", JobController, :index
+
+    get "/pages/conditions", PageController, :conditions
+    get "/pages/project", PageController, :project
+
+    resources "/jobs", JobController
   end
 end

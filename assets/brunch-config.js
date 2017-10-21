@@ -20,7 +20,10 @@ exports.config = {
       // }
     },
     stylesheets: {
-      joinTo: "css/app.css"
+      joinTo: "css/app.css",
+      order: {
+        after: ["css/app.scss"] // concat app.css last
+      }
     },
     templates: {
       joinTo: "js/app.js"
@@ -47,6 +50,9 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/vendor/]
+    },
+    sass: {
+      mode: "native" // This is the important part!
     }
   },
 

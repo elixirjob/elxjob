@@ -1,0 +1,5 @@
+<div class="ui segment new_vacancy">
+  <%= render "form.html", changeset: @changeset,
+                        action: job_path(@conn, :create), conn: @conn %>
+
+</div>

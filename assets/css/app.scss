@@ -1,0 +1,50 @@
+@import "../_sass/custom";
+
+.container {
+  max-width: 930px;
+  margin: 0 auto;
+}
+.help-block{
+  color: red;
+}
+.item .header{
+  margin: 0 0 10px 0 !important;
+}
+
+body{
+  background-image: url("../images/nerds.jpeg") !important;
+  background-size: cover;
+}
+
+a.post_job{
+  background-color: #432654 !important;
+  color: white !important;
+}
+
+.container.header{
+  margin-top: 15px;
+}
+
+.subheader{
+  margin-bottom: 15px;
+
+  .first{
+    margin-bottom: 10px;
+  }
+}
+
+// // .subheader h1{
+// //   border-bottom: none !important;
+// // }
+
+a.post_job{
+  margin-left: 59%;
+  margin-top: 14px;
+}
+
+a.button.post_job{
+  float: right;
+  margin: 15px;
+  width: 50% !important;
+}
+

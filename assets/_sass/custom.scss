@@ -1,0 +1,213 @@
+.subheader{
+  border-bottom: 2px solid #432654;
+}
+
+.subheader h1{
+  border-bottom: none !important;
+}
+.container.header{
+  margin-bottom: 15px;
+
+  .segment.head {
+    padding: 35px;
+  }
+}
+
+.container.header1 {
+  .message{
+    text-align: center;
+  }
+}
+.ui.form .field:last-child{
+  margin-bottom: 2em !important;
+}
+
+h1.dividing.header {
+  display: inline;
+  color: #3E2050;
+}
+
+input#job_remote{
+  margin-top: 2px;
+  margin-left: 15px;
+}
+
+.marg_top#remote_checkbox{
+  text-align: center;
+  padding-top: 45px;
+
+  label {
+    margin-right: 7%;
+  }
+}
+
+form.ui.form {
+  .ui.negative.message {
+    text-align: center !important;
+  }
+
+  .form-contacts {
+    margin-bottom: 15px;
+  }
+}
+
+.new_vacancy form {
+  padding: 10px;
+}
+
+.no-marg-top {
+  margin-top: 0;
+}
+
+.payment-label {
+  position: absolute;
+}
+
+.job-contacts {
+  width: auto !important;
+
+  .row {
+    margin: 15px 0;
+  }
+
+  a .label{
+    margin: 2px !important;
+  }
+}
+
+.item.pagination {
+  padding: 32px 30px 22px 0 !important;
+  text-align: right;
+
+  a {
+    padding: 7px;
+    border: 1px solid lightcyan;
+  }
+
+  a.current-page {
+    padding: 7px;
+    border: 1px solid lightcyan;
+    background-color: #432654;
+    color: white;
+  }
+}
+
+.ui.dividing.header {
+  border-bottom: 2px solid #432654;
+}
+h3.ui.dividing.header {
+  color: #432654;
+}
+
+.raised.segment.main-page {
+  padding: 35px;
+}
+
+.ui.raised.segment {
+  padding: 35px 35px 42px 35px;
+}
+
+.form-group.right {
+  float: right;
+}
+
+.form-group.add-vacancy {
+  display: inline-block;
+}
+
+
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+.main {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -120px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+footer, .page-wrap:after {
+  height: 120px;
+  text-align: center;
+  margin-bottom: 0 !important;
+  text-align: left;
+}
+
+footer {
+  .footer__content {
+    padding: 35px 0 15px 0;
+  }
+  .sign, .footer__menu {
+    display: inline;
+  }
+
+  .sign .inspiring {
+    display: inline;
+  }
+
+  .footer__menu {
+    float: right;
+    padding-bottom: 10px;
+
+    ul li {
+      display: inline;
+      margin: 0 5px;
+    }
+  }
+}
+
+form.archive__button {
+  position: absolute;
+  right: 1%;
+  bottom: 1.5%;
+}
+
+@media only screen
+  and (min-device-width: 414px)
+  and (max-device-width: 736px)
+  and (-webkit-min-device-pixel-ratio: 3) {
+    .pt-33 {
+      padding-top: 33px !important;
+    }
+
+    a.post_job {
+      font-size: 10px !important;
+    }
+
+    h1.dividing.header {
+      font-size: 22px !important;
+    }
+
+    .job-contacts, footer {
+      font-size: 10px !important;
+    }
+
+    .right.compact.ui {
+      width: 40%;
+
+      a .label{
+        margin: 0 1px 2px 0 !important;
+      }
+
+    }
+  }
+
+span.logo {
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+
+  z-index: 1;
+
+  /* fixes overlap error in IE7/8,
+     make sure you have an empty gif */
+  background-image: url('/images/empty.gif');
+}

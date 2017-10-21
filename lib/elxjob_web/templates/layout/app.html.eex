@@ -1,35 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>
+      <%= if assigns[:page_title], do: "#{@page_title} | Сайт вакансий для Erlang и Elixir разработчиков - elixirjob.ru", else: "Сайт вакансий для Erlang и Elixir разработчиков - elixirjob.ru" %>
+    </title>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="<%= desc_content(assigns[:desc], assigns[:company]) %>">
+    <meta name="keywords" content="elixir, erlang, вакансии elixir, вакансии erlang, elixir работа, erlang вакансии">
     <meta name="author" content="">
 
-    <title>Hello Elxjob!</title>
+    <title>Elixirjob - вакансии для elixir и erlang разработчиков.</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+    <div class="header container">
+      <div class="ui piled segment head">
+        <div class="subheader">
+          <div class="ui two column grid">
+            <div class="column first" style="position:relative;">
+              <img src="/images/elixir-logo.png" alt="Elixir Jobs Logo" style="width:10%;">
+              <a href="/">
+                <span class="logo"></span>
+              </a>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+              <h1 class="ui dividing header">Elixir Job</h1>
+            </div>
+            <div class="column post_job">
+              <%= if @conn.private[:phoenix_action] == :index do %>
+                <%= link "Добавить вакансию", to: job_path(@conn, :new), class: "ui medium fluid button post_job", style: "display:inline;" %>
+              <% end %>
+            </div>
+          </div>
 
+        </div>
+        <%= if @conn.private[:phoenix_action] == :index do %>
+          <p>
+            Elixir Job площадка для размещения вакансии и поиска Elixir, Erlang разработчиков. </p>
+          <p>
+            Если Вы ищете Elixir/Erlang разработчиков - просто размещайте объявление о вакансии. Размещение бесплатно!
+          </p>
+        <% end %>
+      </div>
+    </div>
+    <div class="container header1">
+
+      <%= unless is_nil(get_flash(@conn, :info)) do %>
+        <div class="ui info message">
+          <div class="header">
+            <%= get_flash(@conn, :info) %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= unless is_nil(get_flash(@conn, :error)) do %>
+      <div class="ui negative message">
+        <div class="header">
+          <%= get_flash(@conn, :error) %>
+        </div>
+      </div>
+      <% end %>
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
 
     </div> <!-- /container -->
+    <%= render ElxjobWeb.SharedView, "footer.html", conn: @conn %>
+    <%= render ElxjobWeb.SharedView, "metrika.html", conn: @conn %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
