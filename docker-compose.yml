@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  web:
+    image: docker.io/buurz/docker-phoenix
+    command: mix phx.server
+    env_file:
+      - '.env.docker.local'
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    links:
+      - postgres
+
+  postgres:
+    image: postgres:9.6-alpine
+    volumes:
+       - "./volumes/postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
