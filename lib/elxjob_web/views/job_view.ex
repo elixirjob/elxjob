@@ -5,6 +5,7 @@ defmodule ElxjobWeb.JobView do
 
   import Ecto.Time
 
+  # TODO
   def convert_date(epoch_time) do
     epoch_time |> Timex.Date.from
     |> DateFormat.format!("%Y-%m-%d")
@@ -12,6 +13,7 @@ defmodule ElxjobWeb.JobView do
     #            |> DateFormat.format!("%Y-%m-%d", :strftime)
   end
 
+  # TODO
   def format_date(date) do
     # d = Ecto.DateTime.to_erl(date)
     [h|_] = Ecto.DateTime.to_string(date) |> String.split(" ")
@@ -19,7 +21,7 @@ defmodule ElxjobWeb.JobView do
   end
 
   def to_html(text) do
-    raw Earmark.as_html!(text)
+    raw Earmark.as_html!(text, %Earmark.Options{})
   end
 
   def payment_form(form) do
@@ -74,6 +76,7 @@ defmodule ElxjobWeb.JobView do
     end
   end
 
+  # TODO
   def post_period(inserted_at \\ nil) do
     start = Timex.today
     case inserted_at do

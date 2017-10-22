@@ -1,10 +1,12 @@
+require IEx
 defmodule ElxjobWeb.JobController do
   use ElxjobWeb, :controller
-  require IEx
+  import Elxjob.Crypto
 
   alias Elxjob.Jobs
   alias Elxjob.Jobs.Job
   alias Elxjob.Repo
+  alias Elxjob.Crypto
 
   def index(conn, params) do
     query =
@@ -36,18 +38,24 @@ defmodule ElxjobWeb.JobController do
   end
 
   def create(conn, %{"job" => job_params}) do
-    case Jobs.create_job(job_params) do
+    changeset = Enum.into(job_params, %{})
+      |> Map.put("owner_token", make_token(25))
+      |> (&(Job.changeset(%Job{}, &1))).()
+
+    case Repo.insert(changeset) do
       {:ok, job} ->
+        # TODO
+        # Elxjob.Mailer.send_moderation(job)
         conn
-        |> put_flash(:info, "Job created successfully.")
-        |> redirect(to: job_path(conn, :show, job))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+          |> put_flash(:info, "Вакансия размещена успешно. \n После модерации Вы получите письмо на указанный email.")
+          |> redirect(to: job_path(conn, :index))
+
+      {:error, changeset} ->
+        render(conn, "new.html", changeset: changeset, errors: changeset.errors)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    IEx.pry
     job = Jobs.get_job!(id)
     render(conn, "show.html", job: job)
   end
