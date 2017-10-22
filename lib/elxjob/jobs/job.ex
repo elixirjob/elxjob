@@ -31,16 +31,13 @@ defmodule Elxjob.Jobs.Job do
     timestamps()
   end
 
-  @required_fields [:title, :description, :occupation, :remote, :actual_till, :email, :location]
-  @optional_fields [:moderation, :owner_token, :archive, :views, :pay_from, :pay_till, :currency, :pay_period, :company, :email,
-                    :site, :phone, :contact]
-
-
   @doc false
   def changeset(%Job{} = job, attrs) do
     job
-    |> cast(attrs, @required_fields, @optional_fields)
-    |> validate_required(@required_fields)
+    |> cast(attrs, [:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token,
+                    :moderation, :archive, :views, :pay_from, :pay_till, :currency, :pay_period, :company, :email,
+                    :site, :phone, :contact])
+    |> validate_required([:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token])
     |> validate_format(:email, ~r/@/)
     |> required_error_messages("необходимо заполнить")
   end

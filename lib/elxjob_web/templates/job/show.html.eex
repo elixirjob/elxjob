@@ -81,6 +81,7 @@
 
     <div class="one wide column"></div>
     <div class="eight wide column">
+      <%# TODO %>
       <%= unless is_nil(@job.description), do: to_html @job.description %>
     </div>
   </div>

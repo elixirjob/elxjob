@@ -1,21 +1,15 @@
-require IEx
 defmodule ElxjobWeb.JobView do
   use ElxjobWeb, :view
   use Timex
 
-  import Ecto.Time
-
-  # TODO
   def convert_date(epoch_time) do
-    epoch_time |> Timex.Date.from
-    |> DateFormat.format!("%Y-%m-%d")
-    # epoch_time |> Date.from(:secs, :epoch)
-    #            |> DateFormat.format!("%Y-%m-%d", :strftime)
+    epoch_time
+      |> Timex.Date.from
+      |> DateFormat.format!("%Y-%m-%d")
   end
 
   # TODO
   def format_date(date) do
-    # d = Ecto.DateTime.to_erl(date)
     [h|_] = Ecto.DateTime.to_string(date) |> String.split(" ")
     h
   end
@@ -26,9 +20,9 @@ defmodule ElxjobWeb.JobView do
 
   def payment_form(form) do
     case form do
-      "hourly_contract" -> "Почасовая оплата"
+      "hourly_contract"  -> "Почасовая оплата"
       "Hourly Contractt" -> "Почасовая оплата"
-      "fulltime" -> "Почасовая оплата"
+      "fulltime"         -> "Почасовая оплата"
     end
   end
 
@@ -76,19 +70,14 @@ defmodule ElxjobWeb.JobView do
     end
   end
 
-  # TODO
   def post_period(inserted_at \\ nil) do
-    start = Timex.today
     case inserted_at do
-      nil -> %{"Неделя" => week(start), "Две недели" => two_week(start), "Месяц" => month(start)}
+      nil ->
+        start = Timex.today
+        %{"Неделя" => week(start), "Две недели" => two_week(start), "Месяц" => month(start)}
+
       _-> inserted_at
     end
-    # if inserted_at do
-    #   inserted_at
-    # else
-    #   start = Timex.today
-    #   %{"Неделя" => week(start), "Две недели" => two_week(start), "Месяц" => month(start)}
-    # end
   end
 
   def week(start) do

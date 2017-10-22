@@ -45,6 +45,8 @@ defmodule Elxjob.Mixfile do
       {:timex_ecto, ">= 0.0.0"},
       {:scrivener_ecto, ">= 1.0.0"},
       {:earmark, ">= 0.0.0"},
+      {:bamboo, ">= 0.0.0"},
+      {:bamboo_smtp, ">= 0.0.0"},
     ]
   end
 

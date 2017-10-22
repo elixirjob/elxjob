@@ -104,9 +104,9 @@ defmodule Elxjob.Jobs do
 
   def query_jobs do
     from p in Job,
-      select: p,
-      order_by: [desc: p.inserted_at],
-      where: not p.archive and p.moderation
+    order_by: [desc: p.inserted_at],
+    where: not p.archive and p.moderation,
+    select: p
   end
 
   def query_jobs_with(filter) do

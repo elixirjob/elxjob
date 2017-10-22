@@ -1,0 +1,31 @@
+<h2>
+<%= @job.title %>
+</h2>
+
+<span><%= @job.company %> -</span> <span><%= @job.location %>
+<br>
+<i class="home icon"></i> <%= if @job.remote, do: "Удаленно", else: "В офисе" %></div>
+<br>
+<i class="newspaper icon"></i> <%= ElxjobWeb.JobView.occupation @job.occupation %></div>
+
+<p>Email: <%= @job.email %></p>
+<p>Contact: <%= @job.contact %></p>
+<p>Phone: <%= @job.phone %></p>
+<br>
+Актуально до: <%= @job.actual_till %></div>
+<br>
+<strong>Оплата:</strong>
+<br>
+от <span><%= @job.pay_from %></span>
+до <span><%= @job.pay_till %></span>
+<%= @job.currency%>
+<p>Pay period: </p><%= @job.pay_period %>
+
+<p>Site: </p><%= @job.site %></a>
+
+<br>
+<p>Description: </p><%= @job.description %></div>
+
+<p><%= link "Approve", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: System.get_env("ADMIN_TOKEN"), moderation: true, admin: false) %></p>
+<p><%= link "AdminApprove", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: System.get_env("ADMIN_TOKEN"), moderation: true, admin: true) %></p>
+<p><%= link "Deny", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: System.get_env("ADMIN_TOKEN"), moderation: false, admin: false) %></p>

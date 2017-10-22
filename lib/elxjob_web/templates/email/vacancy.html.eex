@@ -1,0 +1,6 @@
+<strong>Приветствую, Ваша вакансия <%= @job.title %> опубликована.</strong>
+
+<p><%= link "Ссылка для редактирования", to: job_url(ElxjobWeb.Endpoint, :edit, @job.id, owner_token: @job.owner_token) %></p>
+
+<p>Всего наилучшего !</p>
+<a href="http://www.elixirjob.ru">www.elixirjob.ru</a>

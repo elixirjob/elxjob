@@ -8,6 +8,9 @@ defmodule ElxjobWeb.JobController do
   alias Elxjob.Repo
   alias Elxjob.Crypto
 
+  plug :jobs_size
+  plug :scrub_params, "job" when action in [:create]
+
   def index(conn, params) do
     query =
       if is_nil(params["type"]) || params["type"] == "" do
@@ -38,14 +41,11 @@ defmodule ElxjobWeb.JobController do
   end
 
   def create(conn, %{"job" => job_params}) do
-    changeset = Enum.into(job_params, %{})
-      |> Map.put("owner_token", make_token(25))
-      |> (&(Job.changeset(%Job{}, &1))).()
+    changeset = job_params |> Map.put("owner_token", make_token(25))
 
-    case Repo.insert(changeset) do
+    case Jobs.create_job(changeset) do
       {:ok, job} ->
-        # TODO
-        # Elxjob.Mailer.send_moderation(job)
+        Elxjob.Mailer.Base.send_moderation(job)
         conn
           |> put_flash(:info, "Вакансия размещена успешно. \n После модерации Вы получите письмо на указанный email.")
           |> redirect(to: job_path(conn, :index))
@@ -60,10 +60,18 @@ defmodule ElxjobWeb.JobController do
     render(conn, "show.html", job: job)
   end
 
-  def edit(conn, %{"id" => id}) do
-    job = Jobs.get_job!(id)
+  def edit(conn, job_params) do
+    job = Jobs.get_job!(job_params["id"])
     changeset = Jobs.change_job(job)
-    render(conn, "edit.html", job: job, changeset: changeset)
+
+    case job.owner_token == job_params["owner_token"] || job_params["admin_token"] == @admin_token do
+      true ->
+        render(conn, "edit.html", job: job, changeset: changeset)
+      _ ->
+        conn
+        |> put_flash(:error, "Вы не можете редактировать данную вакансию.")
+        |> redirect(to: job_path(conn, :show, job))
+    end
   end
 
   def update(conn, %{"id" => id, "job" => job_params}) do
@@ -88,6 +96,35 @@ defmodule ElxjobWeb.JobController do
     |> redirect(to: job_path(conn, :index))
   end
 
+  # TODO
+  def approve(conn, %{"id" => id,
+                      "admin_token" => token,
+                      "moderation" => result,
+                      "admin" => admin}) do
+
+                        # IEx.pry
+    if admin_token != token, do: conn |> redirect(to: job_path(conn, :index))
+    job = Jobs.get_job!(id)
+
+    if result == "false" do
+      Jobs.delete_job(job)
+      conn
+        |> put_flash(:info, "Вакансия удалена успешно.")
+        |> redirect(to: job_path(conn, :index))
+    else
+      case Jobs.update_job(job, %{"moderation" => result}) do
+        {:ok, job} ->
+          if admin != "true", do: Elxjob.Mailer.Base.send_vacancy(job)
+          conn
+            |> put_flash(:info, "Вакансия обновлена.")
+            |> redirect(to: job_path(conn, :index))
+
+        {:error, changeset} ->
+          render(conn, "edit.html", job: job, changeset: changeset)
+      end
+    end
+  end
+
   defp select_query(params) do
     case params["type"] do
       "occupation" ->
@@ -98,5 +135,13 @@ defmodule ElxjobWeb.JobController do
         [remote: params["q"]]
       "" -> [archive: false]
     end
+  end
+
+  defp jobs_size(conn, _params) do
+    assign(conn, :count_jobs, length(Jobs.list_jobs))
+  end
+
+  def admin_token do
+    System.get_env("ADMIN_TOKEN")
   end
 end

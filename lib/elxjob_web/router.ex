@@ -22,5 +22,6 @@ defmodule ElxjobWeb.Router do
     get "/pages/project", PageController, :project
 
     resources "/jobs", JobController
+    get "/jobs/:id/approve", JobController, :approve
   end
 end
