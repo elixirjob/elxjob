@@ -1,4 +1,3 @@
-require IEx
 defmodule ElxjobWeb.JobController do
   use ElxjobWeb, :controller
   import Elxjob.Crypto
@@ -64,7 +63,7 @@ defmodule ElxjobWeb.JobController do
     job = Jobs.get_job!(job_params["id"])
     changeset = Jobs.change_job(job)
 
-    case job.owner_token == job_params["owner_token"] || job_params["admin_token"] == @admin_token do
+    case job.owner_token == job_params["owner_token"] || job_params["admin_token"] == admin_token do
       true ->
         render(conn, "edit.html", job: job, changeset: changeset)
       _ ->
@@ -96,31 +95,20 @@ defmodule ElxjobWeb.JobController do
     |> redirect(to: job_path(conn, :index))
   end
 
-  # TODO
   def approve(conn, %{"id" => id,
                       "admin_token" => token,
                       "moderation" => result,
                       "admin" => admin}) do
-    if admin_token != token, do: conn |> redirect(to: job_path(conn, :index))
 
-    job = Jobs.get_job!(id)
+    cond do
+      admin_token != token ->
+        conn |> redirect(to: job_path(conn, :index))
 
-    if result == "false" do
-      Jobs.delete_job(job)
-      conn
-        |> put_flash(:info, "Вакансия удалена успешно.")
-        |> redirect(to: job_path(conn, :index))
-    else
-      case Jobs.update_job(job, %{"moderation" => result}) do
-        {:ok, job} ->
-          if admin != "true", do: Elxjob.Mailer.Base.send_vacancy(job)
-          conn
-            |> put_flash(:info, "Вакансия обновлена.")
-            |> redirect(to: job_path(conn, :index))
+      result == "false" ->
+        delete_and_redirect(conn, id)
 
-        {:error, changeset} ->
-          render(conn, "edit.html", job: job, changeset: changeset)
-      end
+      true ->
+        handle_update_job(conn, id, result, admin)
     end
   end
 
@@ -140,7 +128,29 @@ defmodule ElxjobWeb.JobController do
     assign(conn, :count_jobs, length(Jobs.list_jobs))
   end
 
-  def admin_token do
+  defp admin_token do
     System.get_env("ADMIN_TOKEN")
+  end
+
+  defp delete_and_redirect(conn, id) do
+    Jobs.get_job!(id) |>Jobs.delete_job()
+    conn
+      |> put_flash(:info, "Вакансия удалена успешно.")
+      |> redirect(to: job_path(conn, :index))
+  end
+
+  defp handle_update_job(conn, id, result, admin) do
+    job = Jobs.get_job!(id)
+    case Jobs.update_job(job, %{"moderation" => result}) do
+      {:ok, job} ->
+        if admin != "true", do: Elxjob.Mailer.Base.send_vacancy(job)
+
+        conn
+          |> put_flash(:info, "Вакансия обновлена.")
+          |> redirect(to: job_path(conn, :index))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", job: job, changeset: changeset)
+    end
   end
 end
