@@ -101,9 +101,8 @@ defmodule ElxjobWeb.JobController do
                       "admin_token" => token,
                       "moderation" => result,
                       "admin" => admin}) do
-
-                        # IEx.pry
     if admin_token != token, do: conn |> redirect(to: job_path(conn, :index))
+
     job = Jobs.get_job!(id)
 
     if result == "false" do

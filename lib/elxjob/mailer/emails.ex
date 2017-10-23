@@ -7,7 +7,6 @@ defmodule Elxjob.Mailer.Emails do
 
   defp base_email do
     new_email()
-    #  |> from("hello@elixirjob.ru")
      |> from(System.get_env("FROM_EMAIL"))
      |> put_header("Reply-To", "noreply@elixirjob.ru")
      # This will use the "email.html.eex" file as a layout when rendering html emails.
