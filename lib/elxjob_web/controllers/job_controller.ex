@@ -24,14 +24,14 @@ defmodule ElxjobWeb.JobController do
       |> Repo.paginate(params)
 
     render conn, :index,
-      page_title: "Список вакансии",
-      jobs: page.entries,
-      page_number: page.page_number,
-      page_size: page.page_size,
-      total_pages: page.total_pages,
+      page_title:    "Список вакансии",
+      jobs:          page.entries,
+      page_number:   page.page_number,
+      page_size:     page.page_size,
+      total_pages:   page.total_pages,
       total_entries: page.total_entries,
-      q: q,
-      type: type
+      q:             q,
+      type:          type
   end
 
   def new(conn, _params) do
