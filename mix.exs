@@ -47,6 +47,8 @@ defmodule Elxjob.Mixfile do
       {:earmark, ">= 0.0.0"},
       {:bamboo, ">= 0.0.0"},
       {:bamboo_smtp, ">= 0.0.0"},
+      {:httpoison, "~> 0.13"},
+      {:poison, "~> 3.1"}
     ]
   end
 

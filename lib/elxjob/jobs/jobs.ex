@@ -113,4 +113,11 @@ defmodule Elxjob.Jobs do
     from u in query_jobs,
       where: ^filter
   end
+
+  def find_by_hh_vacancy(hh_vacancy_id) when is_nil(hh_vacancy_id), do: nil
+  def find_by_hh_vacancy(hh_vacancy_id) do
+    from j in Job,
+    where: j.hh_vacancy_id == ^hh_vacancy_id,
+    select: j
+  end
 end

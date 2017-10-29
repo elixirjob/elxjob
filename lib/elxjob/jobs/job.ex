@@ -27,6 +27,7 @@ defmodule Elxjob.Jobs.Job do
     field :owner_token, :string
     field :archive, :boolean
     field :moderation, :boolean
+    field :hh_vacancy_id, :string
 
     timestamps()
   end
@@ -36,9 +37,10 @@ defmodule Elxjob.Jobs.Job do
     job
     |> cast(attrs, [:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token,
                     :moderation, :archive, :views, :pay_from, :pay_till, :currency, :pay_period, :company, :email,
-                    :site, :phone, :contact])
+                    :site, :phone, :contact, :hh_vacancy_id])
     |> validate_required([:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token])
     |> validate_format(:email, ~r/@/)
+    |> unique_constraint(:hh_vacancy_id, message: "Hh vacany with such id already exist")
     |> required_error_messages("необходимо заполнить")
   end
 

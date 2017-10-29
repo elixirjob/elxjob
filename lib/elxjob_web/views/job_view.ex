@@ -18,14 +18,6 @@ defmodule ElxjobWeb.JobView do
     raw Earmark.as_html!(text, %Earmark.Options{})
   end
 
-  def payment_form(form) do
-    case form do
-      "hourly_contract"  -> "Почасовая оплата"
-      "Hourly Contractt" -> "Почасовая оплата"
-      "fulltime"         -> "Почасовая оплата"
-    end
-  end
-
   def connect_type(type) do
     case type do
       "office" -> "Офис"
