@@ -43,7 +43,7 @@ defmodule Periodically.JobArchiver do
 
   defp delete_job(job) do
     how_long_ago = job.actual_till |> Timex.shift(months: 12)
-    if Timex.compare(how_long_ago, job.actual_till) != -1 do
+    if Timex.compare(Timex.today, how_long_ago) != -1 do
       Jobs.delete_job(job)
     end
   end
