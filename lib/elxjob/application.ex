@@ -14,7 +14,8 @@ defmodule Elxjob.Application do
       supervisor(ElxjobWeb.Endpoint, []),
       # Start your own worker by calling: Elxjob.Worker.start_link(arg1, arg2, arg3)
       # worker(Elxjob.Worker, [arg1, arg2, arg3]),
-      worker(Elxjob.Periodically.JobArchiver, [])
+      worker(Periodically.JobArchiver, []),
+      worker(Periodically.HhVacancyFetcher, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

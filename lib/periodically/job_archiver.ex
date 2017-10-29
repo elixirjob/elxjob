@@ -1,4 +1,4 @@
-defmodule Elxjob.Periodically.JobArchiver do
+defmodule Periodically.JobArchiver do
   use GenServer
 
   alias Elxjob.Jobs
