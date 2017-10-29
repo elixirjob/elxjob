@@ -120,4 +120,10 @@ defmodule Elxjob.Jobs do
     where: j.hh_vacancy_id == ^hh_vacancy_id,
     select: j
   end
+
+  def archived_jobs(value) do
+    from j in Job,
+    where: j.archive == ^value,
+    select: j
+  end
 end
