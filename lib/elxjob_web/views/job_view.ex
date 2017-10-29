@@ -2,12 +2,6 @@ defmodule ElxjobWeb.JobView do
   use ElxjobWeb, :view
   use Timex
 
-  def convert_date(epoch_time) do
-    epoch_time
-      |> Timex.Date.from
-      |> DateFormat.format!("%Y-%m-%d")
-  end
-
   # TODO
   def format_date(date) do
     [h|_] = Ecto.DateTime.to_string(date) |> String.split(" ")

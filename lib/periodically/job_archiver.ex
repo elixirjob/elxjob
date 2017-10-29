@@ -14,8 +14,8 @@ defmodule Periodically.JobArchiver do
 
   def handle_info(:work, state) do
     # Do the work you desire here
-    archive_jobs
-    delete_jobs
+    archive_jobs()
+    delete_jobs()
 
     schedule_work() # Reschedule once more
     {:noreply, state}
