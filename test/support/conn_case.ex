@@ -20,6 +20,7 @@ defmodule ElxjobWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import ElxjobWeb.Router.Helpers
+      import Elxjob.Factory
 
       # The default endpoint for testing
       @endpoint ElxjobWeb.Endpoint

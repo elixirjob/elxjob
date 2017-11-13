@@ -6,14 +6,13 @@ defmodule Elxjob.JobsTest do
   describe "jobs" do
     alias Elxjob.Jobs.Job
 
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
+    @update_attrs %{title: "UpdatedJob"}
+    @invalid_attrs %{title: ""}
 
     def job_fixture(attrs \\ %{}) do
       {:ok, job} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(job_attrs())
         |> Jobs.create_job()
 
       job
@@ -30,7 +29,7 @@ defmodule Elxjob.JobsTest do
     end
 
     test "create_job/1 with valid data creates a job" do
-      assert {:ok, %Job{} = job} = Jobs.create_job(@valid_attrs)
+      assert {:ok, %Job{} = job} = Jobs.create_job(job_attrs())
     end
 
     test "create_job/1 with invalid data returns error changeset" do
@@ -59,5 +58,9 @@ defmodule Elxjob.JobsTest do
       job = job_fixture()
       assert %Ecto.Changeset{} = Jobs.change_job(job)
     end
+  end
+
+  defp job_attrs do
+    build(:job) |> Map.from_struct()
   end
 end

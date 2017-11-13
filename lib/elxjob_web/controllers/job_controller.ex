@@ -112,6 +112,7 @@ defmodule ElxjobWeb.JobController do
     end
   end
 
+  # TODO: archived?
   defp select_query(params) do
     case params["type"] do
       "occupation" ->

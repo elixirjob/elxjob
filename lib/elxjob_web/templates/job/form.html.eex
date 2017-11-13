@@ -31,7 +31,7 @@
     <div class="four wide column">
       <div class="field">
         <%= label f, "Срок размещения" %>
-        <%= if @conn.private[:phoenix_action] == :edit do %>
+        <%= if @conn.private[:phoenix_action] == :edit or @conn.private[:phoenix_action] == :update do %>
           <%= text_input f, :actual_till, value: f.data.actual_till, hidden: true  %>
           <div>до: <%= f.data.actual_till %></div>
         <% else %>

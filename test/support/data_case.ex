@@ -22,6 +22,7 @@ defmodule Elxjob.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Elxjob.DataCase
+      import Elxjob.Factory
     end
   end
 

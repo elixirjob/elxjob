@@ -57,6 +57,7 @@ defmodule ElxjobWeb.JobView do
   end
 
   def post_period(inserted_at \\ nil) do
+
     case inserted_at do
       nil ->
         start = Timex.today

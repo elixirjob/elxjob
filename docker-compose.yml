@@ -4,6 +4,8 @@ services:
   web:
     image: docker.io/buurz/docker-phoenix
     command: mix phx.server
+    depends_on:
+      - postgres
     env_file:
       - '.env.docker.local'
     volumes:

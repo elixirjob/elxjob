@@ -61,4 +61,18 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
+
+# Configures Mailer
+config :elxjob, Elxjob.Mailer.Base,
+adapter: Bamboo.SMTPAdapter,
+server: "smtp.yandex.ru",
+port: 587,
+username: System.get_env("FROM_EMAIL"),
+password: System.get_env("FROM_EMAIL_PASS"),
+tls: :if_available, # can be `:always` or `:never`
+ssl: false, # can be `true`
+retries: 1
+
+
+
 import_config "prod.secret.exs"

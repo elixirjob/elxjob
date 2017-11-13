@@ -48,7 +48,8 @@ defmodule Elxjob.Mixfile do
       {:bamboo, ">= 0.0.0"},
       {:bamboo_smtp, ">= 0.0.0"},
       {:httpoison, "~> 0.13"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:ex_machina, "~> 2.1", only: :test}
     ]
   end
 

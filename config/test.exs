@@ -12,8 +12,9 @@ config :logger, level: :warn
 # Configure your database
 config :elxjob, Elxjob.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "elxjob_test",
-  hostname: "localhost",
+  url: System.get_env("DATABASE_URL_TEST"),
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Configures Mailer
+config :elxjob, Elxjob.Mailer.Base,
+  adapter: Bamboo.TestAdapter
