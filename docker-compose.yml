@@ -13,7 +13,7 @@ services:
     ports:
       - "4000:4000"
     links:
-      - postgres
+      - postgres:postgres.local
 
   postgres:
     image: postgres:9.6-alpine

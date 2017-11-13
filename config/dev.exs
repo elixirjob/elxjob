@@ -51,17 +51,17 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :elxjob, Elxjob.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: System.get_env("DATABASE_URL"),
+  url: {:system, "DATABASE_URL"},
   pool_size: 10
 
 
 # Configures Mailer
 config :elxjob, Elxjob.Mailer.Base,
-adapter: Bamboo.SMTPAdapter,
-server: "smtp.yandex.ru",
-port: 587,
-username: System.get_env("FROM_EMAIL"),
-password: System.get_env("FROM_EMAIL_PASS"),
-tls: :if_available, # can be `:always` or `:never`
-ssl: false, # can be `true`
-retries: 1
+  adapter:  Bamboo.SMTPAdapter,
+  server:   "smtp.yandex.ru",
+  port:     587,
+  username: System.get_env("FROM_EMAIL"),
+  password: System.get_env("FROM_EMAIL_PASS"),
+  tls:      :if_available, # can be `:always` or `:never`
+  ssl:      false, # can be `true`
+  retries:  1

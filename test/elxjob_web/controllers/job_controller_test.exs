@@ -120,9 +120,23 @@ defmodule ElxjobWeb.JobControllerTest do
     test "deletes chosen job", %{conn: conn, job: job} do
       conn = delete conn, job_path(conn, :delete, job)
       assert redirected_to(conn) == job_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get conn, job_path(conn, :show, job)
-      end
+      # assert_error_sent 404, fn ->
+      #   get conn, job_path(conn, :show, job)
+      # end
+    end
+  end
+
+  describe "show job" do
+    setup [:create_job]
+
+    test "shows chosen job", %{conn: conn, job: job} do
+      conn = get conn, job_path(conn, :show, job), %{"id" => job.id}
+      assert html_response(conn, 200) =~ job.title
+    end
+
+    test "redirect to index if invalid id", %{conn: conn} do
+      conn = get conn, job_path(conn, :show, %Elxjob.Jobs.Job{id: 9999})
+      assert redirected_to(conn) == job_path(conn, :index)
     end
   end
 

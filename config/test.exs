@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :elxjob, Elxjob.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: System.get_env("DATABASE_URL_TEST"),
-  pool: Ecto.Adapters.SQL.Sandbox
+  url:     {:system, "DATABASE_URL_TEST"},
+  pool:    Ecto.Adapters.SQL.Sandbox
 
 # Configures Mailer
 config :elxjob, Elxjob.Mailer.Base,

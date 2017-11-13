@@ -35,7 +35,13 @@ defmodule Elxjob.Jobs do
       ** (Ecto.NoResultsError)
 
   """
-  def get_job!(id), do: Repo.get!(Job, id)
+  def get_job!(id) do
+    try do
+      Repo.get!(Job, id)
+    rescue
+      _ -> :error
+    end
+  end
 
   @doc """
   Creates a job.

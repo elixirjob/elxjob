@@ -5,7 +5,6 @@ defmodule ElxjobWeb.JobController do
   alias Elxjob.Jobs
   alias Elxjob.Jobs.Job
   alias Elxjob.Repo
-  alias Elxjob.Crypto
 
   plug :jobs_size
   plug :scrub_params, "job" when action in [:create]
@@ -55,15 +54,20 @@ defmodule ElxjobWeb.JobController do
   end
 
   def show(conn, %{"id" => id}) do
-    job = Jobs.get_job!(id)
-    render(conn, "show.html", job: job)
+    case Jobs.get_job!(id) do
+      :error ->
+        conn
+        |> put_flash(:error, "Вакансия не найдена.")
+        |> redirect(to: job_path(conn, :index))
+      job -> render(conn, "show.html", job: job)
+    end
   end
 
   def edit(conn, job_params) do
     job = Jobs.get_job!(job_params["id"])
     changeset = Jobs.change_job(job)
 
-    case job.owner_token == job_params["owner_token"] || job_params["admin_token"] == admin_token do
+    case job.owner_token == job_params["owner_token"] || job_params["admin_token"] == admin_token() do
       true ->
         render(conn, "edit.html", job: job, changeset: changeset)
       _ ->
@@ -101,7 +105,7 @@ defmodule ElxjobWeb.JobController do
                       "admin" => admin}) do
 
     cond do
-      admin_token != token ->
+      admin_token() != token ->
         conn |> redirect(to: job_path(conn, :index))
 
       result == "false" ->

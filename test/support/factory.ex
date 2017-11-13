@@ -12,7 +12,7 @@ defmodule Elxjob.Factory do
             email: "tt@tt.tt",
          location: "Moscow",
        moderation: true,
-       archive:    false
+          archive: false
     }
   end
 
