@@ -3,11 +3,12 @@ defmodule Elxjob.Mailer.Emails do
 
   use Bamboo.Phoenix, view: ElxjobWeb.EmailView
 
-  @admin_email System.get_env("ADMIN_EMAIL")
+  @admin_email "buurzx@gmail.com"
+  @from_email "hello@elixirjob.ru"
 
   defp base_email do
     new_email()
-     |> from(System.get_env("FROM_EMAIL"))
+     |> from(@from_email)
      |> put_header("Reply-To", "noreply@elixirjob.ru")
      # This will use the "email.html.eex" file as a layout when rendering html emails.
      # Plain text emails will not use a layout unless you use `put_text_layout`
@@ -42,7 +43,7 @@ defmodule Elxjob.Mailer.Emails do
     """
     new_email()
       |> to(recipient)
-      |> from(System.get_env("FROM_EMAIL"))
+      |> from(@from_email)
       |> subject("Спасибо за публикацию!")
       |> html_body(html_body)
       |> text_body("Ваша вакансия создана. \n Ваша ссылка для редактирования: \n <%= url %>")
