@@ -7,13 +7,11 @@
 
       <h5>
         <%= if @job.company do %>
-          <span><%= @job.company %> -</span>
+          <span><%= @job.company %></span>
         <% end %>
 
-        <%= if @job.location do %>
-          <span><%= @job.location %><i class="marker icon"></i></span>
-        <% else %>
-          <span>Not Set</span>
+        <%= if @job.location && @job.location != "Not set" do %>
+          <span> - <%= @job.location %><i class="marker icon"></i></span>
         <% end %>
       </h5>
     </div>

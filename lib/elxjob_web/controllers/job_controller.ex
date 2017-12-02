@@ -1,4 +1,5 @@
 defmodule ElxjobWeb.JobController do
+  require Logger
   use ElxjobWeb, :controller
   import Elxjob.Crypto
 
@@ -59,7 +60,9 @@ defmodule ElxjobWeb.JobController do
         conn
         |> put_flash(:error, "Вакансия не найдена.")
         |> redirect(to: job_path(conn, :index))
-      job -> render(conn, "show.html", job: job)
+      job ->
+        spawn(Jobs, :update_views, [job])
+        render(conn, "show.html", job: job)
     end
   end
 

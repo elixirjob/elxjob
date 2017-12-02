@@ -1,9 +1,11 @@
 defmodule Elxjob.Jobs do
+  require Logger
   @moduledoc """
   The Jobs context.
   """
 
   import Ecto.Query, warn: false
+
   alias Elxjob.Repo
 
   alias Elxjob.Jobs.Job
@@ -116,7 +118,7 @@ defmodule Elxjob.Jobs do
   end
 
   def query_jobs_with(filter) do
-    from u in query_jobs,
+    from u in query_jobs(),
       where: ^filter
   end
 
@@ -131,5 +133,19 @@ defmodule Elxjob.Jobs do
     from j in Job,
     where: j.archive == ^value,
     select: j
+  end
+
+  def update_views(job) do
+    count =
+      case job.views do
+        nil -> 1
+        _ -> job.views + 1
+      end
+
+    case update_job(job, %{views: count}) do
+      {:ok, _job} -> :ok
+      {:error, jobs} ->
+        Logger.info("---#{inspect(jobs.errors)}")
+    end
   end
 end
