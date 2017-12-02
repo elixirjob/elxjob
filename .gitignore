@@ -28,3 +28,7 @@ npm-debug.log
 .env.docker.local
 /volumes
 tasks.todo
+elxjob.tar.gz
+/rel
+/releases
+local.*
