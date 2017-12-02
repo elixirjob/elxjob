@@ -66,7 +66,7 @@ defmodule Hh.VacancyFetcher do
   defp create_job(params) do
     case Jobs.create_job(params) do
       {:ok, _} -> :ok
-      {:error, changeset} -> nil
+      {:error, _changeset} -> nil
     end
   end
 

@@ -15,6 +15,7 @@ defmodule Periodically.HhVacancyFetcher do
     def handle_info(:work, state) do
       # Do the work you desire here
       VacancyFetcher.handle_vacancy_search("elixir")
+      VacancyFetcher.handle_vacancy_search("erlang")
 
       schedule_work() # Reschedule once more
       {:noreply, state}

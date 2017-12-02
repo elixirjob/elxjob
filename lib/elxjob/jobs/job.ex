@@ -38,7 +38,7 @@ defmodule Elxjob.Jobs.Job do
     |> cast(attrs, [:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token,
                     :moderation, :archive, :views, :pay_from, :pay_till, :currency, :pay_period, :company, :email,
                     :site, :phone, :contact, :hh_vacancy_id])
-    |> validate_required([:title, :description, :occupation, :remote, :actual_till, :email, :location])
+    |> validate_required([:title, :description, :occupation, :remote, :actual_till, :email])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:hh_vacancy_id, message: "Hh vacany with such id already exist")
     |> required_error_messages("необходимо заполнить")
