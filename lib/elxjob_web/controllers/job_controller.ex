@@ -137,7 +137,7 @@ defmodule ElxjobWeb.JobController do
   end
 
   defp admin_token do
-    System.get_env("ADMIN_TOKEN")
+    Application.get_env(:elxjob, :admin_token)
   end
 
   defp delete_and_redirect(conn, id) do

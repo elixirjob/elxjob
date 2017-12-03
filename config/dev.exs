@@ -65,3 +65,5 @@ config :elxjob, Elxjob.Mailer.Base,
   tls:      :if_available, # can be `:always` or `:never`
   ssl:      false, # can be `true`
   retries:  1
+
+import_config "dev.secret.exs"
