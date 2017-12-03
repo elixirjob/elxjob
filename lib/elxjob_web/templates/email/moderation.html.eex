@@ -26,6 +26,6 @@
 <br>
 <p>Description: </p><%= @job.description %></div>
 
-<p><%= link "Approve", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: System.get_env("ADMIN_TOKEN"), moderation: true, admin: false) %></p>
-<p><%= link "AdminApprove", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: System.get_env("ADMIN_TOKEN"), moderation: true, admin: true) %></p>
-<p><%= link "Deny", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: System.get_env("ADMIN_TOKEN"), moderation: false, admin: false) %></p>
+<p><%= link "Approve", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: Application.get_env(:elxjob, :admin_token), moderation: true, admin: false) %></p>
+<p><%= link "AdminApprove", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: Application.get_env(:elxjob, :admin_token), moderation: true, admin: true) %></p>
+<p><%= link "Deny", to: job_url(ElxjobWeb.Endpoint, :approve, @job.id, admin_token: Application.get_env(:elxjob, :admin_token), moderation: false, admin: false) %></p>
