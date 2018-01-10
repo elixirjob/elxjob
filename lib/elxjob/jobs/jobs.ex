@@ -122,11 +122,19 @@ defmodule Elxjob.Jobs do
       where: ^filter
   end
 
-  def find_by_hh_vacancy(hh_vacancy_id) when is_nil(hh_vacancy_id), do: nil
-  def find_by_hh_vacancy(hh_vacancy_id) do
-    from j in Job,
-    where: j.hh_vacancy_id == ^hh_vacancy_id,
-    select: j
+  def find_by_hh_vacancy(params) do
+    hh_vacancy_id = params["hh_vacancy_id"]
+    title         = params["title"]
+    email         = params["email"]
+
+    case is_nil(hh_vacancy_id) do
+      true -> nil
+      false ->
+        from j in Job,
+        where: j.hh_vacancy_id == ^hh_vacancy_id or
+              (j.email == ^email and j.title == ^title),
+        select: j
+    end
   end
 
   def archived_jobs(value) do

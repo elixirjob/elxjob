@@ -2,6 +2,10 @@ defmodule ElxjobWeb.JobView do
   use ElxjobWeb, :view
   use Timex
 
+  def render("job_email.json", %{job_email: job_email}) do
+    job_email
+  end
+
   # TODO
   def format_date(date) do
     [h|_] = Ecto.DateTime.to_string(date) |> String.split(" ")

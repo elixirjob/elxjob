@@ -70,6 +70,7 @@ defmodule ElxjobWeb.JobController do
     job = Jobs.get_job!(job_params["id"])
     changeset = Jobs.change_job(job)
 
+    # TODO: refactor
     case job.owner_token == job_params["owner_token"] || job_params["admin_token"] == admin_token() do
       true ->
         render(conn, "edit.html", job: job, changeset: changeset)
@@ -119,6 +120,12 @@ defmodule ElxjobWeb.JobController do
     end
   end
 
+  def job_email(conn, %{"id" => id}) do
+    job = Jobs.get_job!(id)
+
+    render conn, job_email: job.email
+  end
+
   # TODO: archived?
   defp select_query(params) do
     case params["type"] do
@@ -147,6 +154,7 @@ defmodule ElxjobWeb.JobController do
       |> redirect(to: job_path(conn, :index))
   end
 
+  # TODO: refactor
   defp handle_update_job(conn, id, result, admin) do
     job = Jobs.get_job!(id)
     case Jobs.update_job(job, %{"moderation" => result}) do

@@ -13,6 +13,12 @@ defmodule ElxjobWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", ElxjobWeb do
+    pipe_through :api
+
+    get "/jobs/:id/job_email", JobController, :job_email
+  end
+
   scope "/", ElxjobWeb do
     pipe_through :browser # Use the default browser stack
 

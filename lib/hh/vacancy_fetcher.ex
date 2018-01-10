@@ -1,4 +1,6 @@
 defmodule Hh.VacancyFetcher do
+  require Logger
+
   alias Elxjob.Jobs
 
   use Timex
@@ -9,13 +11,13 @@ defmodule Hh.VacancyFetcher do
     get(@base_url)
   end
 
-  # @spec search_vacancies(String.t) :: %{}
   def show_vacancy(vacancy_id) do
     url = @base_url <> vacancy_id
 
     get(url)
   end
 
+  # @spec search_vacancies(String.t) :: Map.t | nil
   def search_vacancies(text) do
     url = @base_url <> "?text=#{text}&search_field=name"
     get(url)["items"]
@@ -29,38 +31,33 @@ defmodule Hh.VacancyFetcher do
     |> Enum.each(&handle_job/1)
   end
 
+  # @spec get(String.t) :: Map.t | :ok
   defp get(url) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         body |> Poison.Parser.parse!
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
+        Logger.error "Invalid url: #{url}"
       {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
+        Logger.error "Error: #{reason}"
     end
   end
 
   defp mapping_job(job_params) do
-    params =
-      case(job_params["contacts"]) do
-        nil -> nil
-        _ ->
-          %{
-            title:         job_params["name"],
-            description:   job_params["description"],
-            remote:        (if job_params["schedule"]["id"] == "remote", do: true, else: false) ,
-            location:      job_params["address"]["city"],
-            company:       job_params["employer"]["name"],
-            email:         job_params["contacts"]["email"],
-            moderation:    true,
-            actual_till:   ElxjobWeb.JobView.month(Timex.today),
-            owner_token:   Elxjob.Crypto.make_token(25),
-            hh_vacancy_id: job_params["id"],
-            occupation:    (if job_params["employment"]["id"] == "full", do: 1, else: 0) #  %{"Другое" => 0, "Полная занятость" => 1, "Частичная занятость" => 2, "Временная работа" => 3, "Работа по контракту" => 4}
-          }
-      end
-
-    params
+    %{
+        title:          job_params["name"],
+        description:    job_params["description"],
+        remote:         remote?(job_params["schedule"]["id"]) ,
+        location:       job_params["address"]["city"],
+        company:        job_params["employer"]["name"],
+        email:          job_params["contacts"]["email"],
+        moderation:     true,
+        actual_till:    ElxjobWeb.JobView.month(Timex.today),
+        owner_token:    Elxjob.Crypto.make_token(25),
+        hh_vacancy_id:  job_params["id"],
+        hh_vacancy_url: job_params["alternate_url"],
+        occupation:     employment_type(job_params["employment"]["id"]) #  %{"Другое" => 0, "Полная занятость" => 1, "Частичная занятость" => 2, "Временная работа" => 3, "Работа по контракту" => 4}
+    }
   end
 
   defp create_job(params) do
@@ -74,8 +71,16 @@ defmodule Hh.VacancyFetcher do
     case params["hh_vacancy_id"] do
       nil -> create_job(params)
       _ ->
-        job = Jobs.find_by_hh_vacancy(params["hh_vacancy_id"])
+        job = Jobs.find_by_hh_vacancy(params)
         if is_nil(job), do: create_job(params)
     end
+  end
+
+  defp remote?(schedule_id) do
+    if schedule_id == "remote", do: true, else: false
+  end
+
+  defp employment_type(employment_id) do
+    if employment_id == "full", do: 1, else: 0
   end
 end

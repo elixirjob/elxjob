@@ -13,12 +13,15 @@
         <%= if @job.location && @job.location != "Not set" do %>
           <span> - <%= @job.location %><i class="marker icon"></i></span>
         <% end %>
+
       </h5>
     </div>
     <div class="three wide column">
+
       <%= unless is_nil(@job.views) do %>
         <i class="eye icon"></i><%= @job.views %>
       <% end %>
+
     </div>
   </div>
 
@@ -28,23 +31,24 @@
       <a href="<%= job_path(@conn, :index, type: :remote,  q: @job.remote) %>">
         <div class="ui green horizontal label"><i class="home icon"></i> <%= if @job.remote, do: "Удаленно", else: "В офисе" %></div>
       </a>
+
       <a href="<%= job_path(@conn, :index, type: :occupation, q: @job.occupation) %>">
         <%= unless is_nil(@job.occupation) do %>
             <div class="ui teal horizontal label"><i class="newspaper icon"></i> <%= occupation(@job.occupation) %></div>
         <% end %>
       </a>
+
       <div class="ui divider"></div>
       <%= if @job.email do %>
-        <div class="email row">
-          <i class="mail icon"></i>
-          <a href="mailto:<%= @job.email %>"><%= @job.email %></a>
-        </div>
+        <div class="email row" id="job_email" data-job-id="<%= @job.id %>"></div>
       <% end %>
+
       <%= if @job.contact do %>
         <div class="contact row">
           <i class="user icon"></i><%= @job.contact %>
         </div>
       <% end %>
+
       <%= if @job.phone do %>
         <div>
           <i class="call icon"></i></i><%= @job.phone %>
@@ -59,14 +63,19 @@
       <%= if @job.pay_from || @job.pay_till do %>
         <strong>Оплата:</strong>
         <br>
+
         <%= if @job.pay_from do %>
           от <span><%= @job.pay_from %></span>
         <% end %>
+
         <%= if @job.pay_till do %>
           до <span><%= @job.pay_till %></span>
         <% end %>
+
         <%= if @job.currency, do: currency(@job.currency)%>
+
         <%= if @job.pay_period, do: pay_period @job.pay_period %>
+
         <div class="ui divider"></div>
       <% end %>
 
@@ -74,6 +83,16 @@
         <i class="linkify icon"></i><a href="<%= @job.site %>" target="_blank"><%= @job.site %></a>
         <div class="ui divider"></div>
       <% end %>
+
+      <%= if @job.hh_vacancy_url && is_nil(@job.email) do %>
+        <i class="linkify icon"></i>
+        <a href="<%= @job.hh_vacancy_url %>" target="_blank">
+          Перейти к вакансии <div class="ui red horizontal label floated">hh.ru</div>
+        </a>
+      <% else %>
+        <%= link "Посмотреть контакты", to: "#", class: "ui medium fluid button", id: "show-email" %>
+      <% end %>
+
 
     </div>
 
