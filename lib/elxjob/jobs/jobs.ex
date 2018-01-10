@@ -1,13 +1,12 @@
 defmodule Elxjob.Jobs do
-  require Logger
   @moduledoc """
   The Jobs context.
   """
+  require Logger
 
   import Ecto.Query, warn: false
 
   alias Elxjob.Repo
-
   alias Elxjob.Jobs.Job
 
   @doc """
@@ -145,7 +144,7 @@ defmodule Elxjob.Jobs do
     case update_job(job, %{views: count}) do
       {:ok, _job} -> :ok
       {:error, jobs} ->
-        Logger.info("---#{inspect(jobs.errors)}")
+        Logger.error("---#{inspect(jobs.errors)}")
     end
   end
 end

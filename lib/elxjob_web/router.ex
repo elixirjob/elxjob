@@ -13,6 +13,15 @@ defmodule ElxjobWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/auth", ElxjobWeb do
+    pipe_through [:browser]
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :delete
+  end
+
   scope "/", ElxjobWeb do
     pipe_through :browser # Use the default browser stack
 
@@ -20,6 +29,7 @@ defmodule ElxjobWeb.Router do
 
     get "/pages/conditions", PageController, :conditions
     get "/pages/project", PageController, :project
+    get "/pages/auth", PageController, :index
 
     resources "/jobs", JobController
     get "/jobs/:id/approve", JobController, :approve

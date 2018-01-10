@@ -20,7 +20,7 @@ defmodule Elxjob.Mixfile do
   def application do
     [
       mod: {Elxjob.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_github]
     ]
   end
 
@@ -50,7 +50,8 @@ defmodule Elxjob.Mixfile do
       {:httpoison, "~> 0.13"},
       {:poison, "~> 3.1"},
       {:ex_machina, "~> 2.1", only: :test},
-      {:distillery, "~> 1.5", runtime: false}
+      {:distillery, "~> 1.5", runtime: false},
+      {:ueberauth_github, "~> 0.6"}
     ]
   end
 

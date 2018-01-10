@@ -8,4 +8,8 @@ defmodule ElxjobWeb.PageController do
   def conditions(conn, _params) do
     render conn, "conditions.html"
   end
+
+  def index(conn, _params) do
+    render conn, "index.html", current_user: get_session(conn, :current_user)
+  end
 end
