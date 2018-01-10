@@ -13,6 +13,16 @@
   }
 }
 
+.post_job{
+  .vacancy{
+    // display: inline-block;
+    float: left;
+  }
+  .github{
+    display: inline-block;
+  }
+}
+
 .container.header1 {
   .message{
     text-align: center;

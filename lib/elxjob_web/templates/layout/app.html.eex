@@ -30,9 +30,30 @@
               <h1 class="ui dividing header">Elixir Job</h1>
             </div>
             <div class="column post_job">
-              <%= if @conn.private[:phoenix_action] == :index do %>
-                <%= link "Добавить вакансию", to: job_path(@conn, :new), class: "ui medium fluid button post_job", style: "display:inline;" %>
-              <% end %>
+              <div class="vacancy">
+                <%= if @conn.private[:phoenix_action] == :index do %>
+                  <%= link "Добавить вакансию", to: job_path(@conn, :new), class: "ui medium fluid button post_job", style: "display:inline;" %>
+                <% end %>
+              </div>
+
+              <div class="ui vertical divider">
+                Or
+              </div>
+
+              <div class="github" style="display:inline;">
+                <%= if @current_user do %>
+                  <img style="width: 30px;" src="<%= @current_user.avatar %>" class="img-circle"/>
+
+                  <%= link to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger" do %>
+                    <i class="sign out icon"></i>
+                  <% end %>
+                  <br>
+                <% else %>
+                  <a class="ui medium fluid" href="/auth/github">
+                    <i class="github icon"></i>
+                  </a>
+                <% end %>
+              </div>
             </div>
           </div>
 

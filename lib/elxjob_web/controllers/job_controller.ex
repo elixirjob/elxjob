@@ -1,6 +1,8 @@
+require Logger
+
 defmodule ElxjobWeb.JobController do
-  require Logger
   use ElxjobWeb, :controller
+
   import Elxjob.Crypto
 
   alias Elxjob.Jobs
@@ -31,7 +33,8 @@ defmodule ElxjobWeb.JobController do
       total_pages:   page.total_pages,
       total_entries: page.total_entries,
       q:             q,
-      type:          type
+      type:          type,
+      current_user:  get_session(conn, :current_user)
   end
 
   def new(conn, _params) do
@@ -62,7 +65,7 @@ defmodule ElxjobWeb.JobController do
         |> redirect(to: job_path(conn, :index))
       job ->
         spawn(Jobs, :update_views, [job])
-        render(conn, "show.html", job: job)
+        render(conn, "show.html", job: job, current_user:  get_session(conn, :current_user))
     end
   end
 
