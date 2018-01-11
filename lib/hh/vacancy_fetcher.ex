@@ -91,7 +91,6 @@ defmodule Hh.VacancyFetcher do
     case currency do
       "RUR" -> 0
       "USD" -> 1
-      nil -> nil
       _ -> nil
     end
   end

@@ -8,6 +8,9 @@ defmodule Elxjob.Jobs.Job do
   use Timex.Ecto.Timestamps
 
   @requred_attrs [:title, :description, :occupation, :remote, :actual_till, :email]
+  @attrs [:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token,
+          :moderation, :archive, :views, :pay_from, :pay_till, :currency, :pay_period, :company, :email,
+          :site, :phone, :contact, :hh_vacancy_id, :hh_vacancy_url]
 
   schema "jobs" do
     field :title, :string
@@ -39,10 +42,8 @@ defmodule Elxjob.Jobs.Job do
   @doc false
   def changeset(%Job{} = job, attrs) do
     job
-    |> cast(attrs, [:title, :description, :occupation, :remote, :actual_till, :email, :location, :owner_token,
-                    :moderation, :archive, :views, :pay_from, :pay_till, :currency, :pay_period, :company, :email,
-                    :site, :phone, :contact, :hh_vacancy_id, :hh_vacancy_url])
-    |> validate_required(pick_required_attrs(attrs))
+    |> cast(attrs, @attrs)
+    |> validate_required(pick_required_attrs(job, attrs))
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:hh_vacancy_id, message: "Hh vacany with such id already exist")
     |> required_error_messages("необходимо заполнить")
@@ -55,17 +56,13 @@ defmodule Elxjob.Jobs.Job do
     end)
   end
 
-  defp pick_required_attrs(attrs) do
-    case Map.fetch(attrs, :hh_vacancy_url) do
-      {:ok, url} ->
-        if is_nil(url) do
-          @requred_attrs
-        else
-          {_, attrs} = List.pop_at(@requred_attrs, -1)
-          attrs
-        end
-
-      :error -> @requred_attrs
+  defp pick_required_attrs(job, attrs) do
+    case job.hh_vacancy_url || attrs.hh_vacancy_url do
+      nil ->
+        @requred_attrs
+      _ ->
+        {_, attrs} = List.pop_at(@requred_attrs, -1)
+        attrs
     end
   end
 end
