@@ -51,6 +51,9 @@ defmodule Hh.VacancyFetcher do
         location:       job_params["address"]["city"],
         company:        job_params["employer"]["name"],
         email:          job_params["contacts"]["email"],
+        pay_till:       job_params["salary"]["to"],
+        pay_from:       job_params["salary"]["from"],
+        currency:       map_currency(job_params["salary"]["currency"]),
         moderation:     true,
         actual_till:    ElxjobWeb.JobView.month(Timex.today),
         owner_token:    Elxjob.Crypto.make_token(25),
@@ -63,7 +66,7 @@ defmodule Hh.VacancyFetcher do
   defp create_job(params) do
     case Jobs.create_job(params) do
       {:ok, _} -> :ok
-      {:error, _changeset} -> nil
+      {:error, changeset} -> nil
     end
   end
 
@@ -82,5 +85,14 @@ defmodule Hh.VacancyFetcher do
 
   defp employment_type(employment_id) do
     if employment_id == "full", do: 1, else: 0
+  end
+
+  defp map_currency(currency) do
+    case currency do
+      "RUR" -> 0
+      "USD" -> 1
+      nil -> nil
+      _ -> nil
+    end
   end
 end

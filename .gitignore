@@ -32,3 +32,4 @@ elxjob.tar.gz
 /rel
 /releases
 local.*
+Makefile

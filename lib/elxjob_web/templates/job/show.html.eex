@@ -61,7 +61,7 @@
 
       <div class="ui divider"></div>
       <%= if @job.pay_from || @job.pay_till do %>
-        <strong>Оплата:</strong>
+        <i class="money icon"></i><strong>Оплата:</strong>
         <br>
 
         <%= if @job.pay_from do %>
@@ -76,6 +76,10 @@
 
         <%= if @job.pay_period, do: pay_period @job.pay_period %>
 
+        <div class="ui divider"></div>
+
+      <% else %>
+        <i class="money icon"></i> з/п не указана
         <div class="ui divider"></div>
       <% end %>
 
