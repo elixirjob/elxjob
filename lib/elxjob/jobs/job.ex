@@ -57,7 +57,7 @@ defmodule Elxjob.Jobs.Job do
   end
 
   defp pick_required_attrs(job, attrs) do
-    case job.hh_vacancy_url || attrs.hh_vacancy_url do
+    case job.hh_vacancy_url || :error == Map.fetch(attrs, "hh_vacancy_url") do
       nil ->
         @requred_attrs
       _ ->
