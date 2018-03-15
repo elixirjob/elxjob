@@ -33,3 +33,4 @@ elxjob.tar.gz
 /releases
 local.*
 Makefile
+/.elixir_ls
