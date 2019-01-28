@@ -120,10 +120,10 @@ defmodule ElxjobWeb.JobController do
     end
   end
 
-  def job_email(conn, %{"id" => id}) do
+  def job_contacts(conn, %{"id" => id}) do
     job = Jobs.get_job!(id)
 
-    render conn, job_email: job.email
+    render conn, job_email: job.email, phone: job.phone
   end
 
   # TODO: archived?

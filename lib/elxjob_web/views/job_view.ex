@@ -2,8 +2,8 @@ defmodule ElxjobWeb.JobView do
   use ElxjobWeb, :view
   use Timex
 
-  def render("job_email.json", %{job_email: job_email}) do
-    job_email
+  def render("job_contacts.json", %{job_email: job_email, phone: phone}) do
+    %{ job_email: job_email, phone: phone }
   end
 
   # TODO

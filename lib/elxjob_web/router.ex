@@ -16,7 +16,7 @@ defmodule ElxjobWeb.Router do
   scope "/api", ElxjobWeb do
     pipe_through :api
 
-    get "/jobs/:id/job_email", JobController, :job_email
+    get "/jobs/:id/job_contacts", JobController, :job_contacts
   end
 
   scope "/", ElxjobWeb do

@@ -50,9 +50,7 @@
       <% end %>
 
       <%= if @job.phone do %>
-        <div>
-          <i class="call icon"></i></i><%= @job.phone %>
-        </div>
+        <div id="job_phone"></div>
       <% end %>
 
       <div class="ui divider"></div>
